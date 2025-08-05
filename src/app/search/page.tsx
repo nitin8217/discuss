@@ -2,6 +2,10 @@ import PostListWrapper from '@/components/posts/post-list-wrapper'
 import { fetchPostBySearch } from '@/lib/query/post'
 import { Search, Sparkles } from 'lucide-react'
 import React from 'react'
+
+// Force this page to be dynamically rendered
+export const dynamic = 'force-dynamic';
+
 type SearchPageProps = { 
     searchParams : Promise<{
         term: string

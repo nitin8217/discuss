@@ -4,6 +4,9 @@ import { fetchPostByTopicSlug } from '@/lib/query/post';
 import { Hash, Users, MessageCircle } from 'lucide-react';
 import React from 'react'
 
+// Force this page to be dynamically rendered
+export const dynamic = 'force-dynamic';
+
 type TopicShowPageProps = {
   params: Promise<{
     slug: string

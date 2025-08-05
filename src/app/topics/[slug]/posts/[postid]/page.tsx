@@ -5,6 +5,8 @@ import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react'
 
+// Force this page to be dynamically rendered
+export const dynamic = 'force-dynamic';
 
 type PostShowPageProps = {  params: Promise<{
     slug: string,

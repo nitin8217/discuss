@@ -3,6 +3,10 @@ import TopicCreateForm from "@/components/topics/TopicCreateForm";
 import { fetchTopPosts } from "@/lib/query/post";
 import { TrendingUp, Plus } from "lucide-react";
 import React from "react";
+
+// Force this page to be dynamically rendered
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const posts = await fetchTopPosts();
   return (
