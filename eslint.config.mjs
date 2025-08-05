@@ -14,6 +14,7 @@ const eslintConfig = [
   {
     ignores: [
       "src/generated/**",
+      "src/app/test-gif/**",
       "*.min.js",
       "dist/",
       "build/",
