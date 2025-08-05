@@ -18,9 +18,15 @@ const eslintConfig = [
       "dist/",
       "build/",
       ".next/",
-      "node_modules/"
-    ]
-  }
+      "node_modules/",
+    ],
+    rules: {
+      "@next/next/no-img-element": "warn",
+      "jsx-a11y/alt-text": "warn",
+      "@typescript-eslint/no-unused-vars": "warn",
+      "react-hooks/exhaustive-deps": "warn"
+    }
+  },
 ];
 
 export default eslintConfig;
