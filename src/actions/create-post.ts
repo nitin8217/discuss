@@ -15,7 +15,7 @@ type CreatePostState = {
     errors: {
         title?: string[];
         content?: string[];
-        _form?: string[];
+        formError?: string[];
     }
 }
  
@@ -33,7 +33,7 @@ export const createPost = async (slug:string, prevState: CreatePostState, formDa
     if(!session || !session.user || !session.user.id) {
         return {
             errors: {
-                _form: ['You have to login to create posts']
+                formError: ['You have to login to create posts']
             }
         }
     }
@@ -46,7 +46,7 @@ export const createPost = async (slug:string, prevState: CreatePostState, formDa
     if (!topic) {
         return {
             errors: {
-                _form: ['Topic not found']
+                formError: ['Topic not found']
             }
         }
     }
@@ -65,13 +65,13 @@ export const createPost = async (slug:string, prevState: CreatePostState, formDa
         if(error instanceof Error) {
             return {
                 errors: {
-                    _form: [error.message]
+                    formError: [error.message]
                 }
             }
         } else {
             return {
                 errors: {
-                    _form: ['Something went wrong while creating post']
+                    formError: ['Something went wrong while creating post']
                 }
             }
         }
@@ -95,7 +95,7 @@ export const editPost = async (postId: string, prevState: CreatePostState, formD
     if (!session || !session.user || !session.user.id) {
         return {
             errors: {
-                _form: ['You have to login to edit posts']
+                formError: ['You have to login to edit posts']
             }
         }
     }
@@ -109,7 +109,7 @@ export const editPost = async (postId: string, prevState: CreatePostState, formD
         if (!existingPost) {
             return {
                 errors: {
-                    _form: ['Post not found']
+                    formError: ['Post not found']
                 }
             }
         }
@@ -117,7 +117,7 @@ export const editPost = async (postId: string, prevState: CreatePostState, formD
         if (existingPost.userId !== session.user.id) {
             return {
                 errors: {
-                    _form: ['You can only edit your own posts']
+                    formError: ['You can only edit your own posts']
                 }
             }
         }
@@ -133,13 +133,13 @@ export const editPost = async (postId: string, prevState: CreatePostState, formD
         if (error instanceof Error) {
             return {
                 errors: {
-                    _form: [error.message]
+                    formError: [error.message]
                 }
             }
         } else {
             return {
                 errors: {
-                    _form: ['Something went wrong while editing post']
+                    formError: ['Something went wrong while editing post']
                 }
             }
         }
