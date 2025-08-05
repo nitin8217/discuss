@@ -1,7 +1,7 @@
 import { prisma } from '@/lib';
 import { auth } from "@/auth";
 import React from 'react'
-import { Calendar, User, FileText, Eye, Heart, Share2, MessageCircle } from 'lucide-react';
+import { Calendar, User, FileText, Eye, Share2, MessageCircle } from 'lucide-react';
 import { EmojiReactionButton } from '../ui/emoji-reaction';
 import { DeletePostButton } from '../ui/delete-button';
 import { getReactions, getUserReactions } from "@/actions/toggle-reaction";

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, X, Loader2, Image } from 'lucide-react'
 import { Input } from './input'
@@ -44,7 +44,7 @@ const GifPicker: React.FC<GifPickerProps> = ({ onGifSelect, isOpen, onClose }) =
     isPlaceholder: GIPHY_API_KEY === 'your-giphy-api-key-here' || GIPHY_API_KEY === 'your-actual-giphy-api-key-here'
   })
 
-  const searchGifs = async (query: string) => {
+  const searchGifs = useCallback(async (query: string) => {
     if (!query.trim()) {
       setGifs([])
       return
@@ -72,9 +72,9 @@ const GifPicker: React.FC<GifPickerProps> = ({ onGifSelect, isOpen, onClose }) =
     } finally {
       setLoading(false)
     }
-  }
+  }, [GIPHY_API_KEY])
 
-  const loadTrendingGifs = async () => {
+  const loadTrendingGifs = useCallback(async () => {
     setLoading(true)
     setError('')
     
@@ -98,13 +98,13 @@ const GifPicker: React.FC<GifPickerProps> = ({ onGifSelect, isOpen, onClose }) =
     } finally {
       setLoading(false)
     }
-  }
+  }, [GIPHY_API_KEY])
 
   useEffect(() => {
     if (isOpen && gifs.length === 0) {
       loadTrendingGifs()
     }
-  }, [isOpen])
+  }, [isOpen, gifs.length, loadTrendingGifs])
 
   useEffect(() => {
     if (searchTimeoutRef.current) {
@@ -120,7 +120,7 @@ const GifPicker: React.FC<GifPickerProps> = ({ onGifSelect, isOpen, onClose }) =
         clearTimeout(searchTimeoutRef.current)
       }
     }
-  }, [searchTerm])
+  }, [searchTerm, searchGifs])
 
   const handleGifSelect = (gif: GifData) => {
     onGifSelect(gif.images.fixed_height.url)
@@ -203,7 +203,7 @@ const GifPicker: React.FC<GifPickerProps> = ({ onGifSelect, isOpen, onClose }) =
               <div className="flex items-center justify-center py-12">
                 <div className="text-center">
                   <Image className="w-12 h-12 text-slate-500 mx-auto mb-2" />
-                  <p className="text-slate-400">No GIFs found for "{searchTerm}"</p>
+                  <p className="text-slate-400">No GIFs found for &ldquo;{searchTerm}&rdquo;</p>
                   <p className="text-slate-500 text-sm mt-1">Try a different search term</p>
                 </div>
               </div>

@@ -1,12 +1,11 @@
 "use client";
-import React, { useActionState, useState, useEffect, useRef } from "react";
+import React, { useActionState, useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { createComment } from "@/actions/create-comment";
-import { Loader2, MessageCircle, Send, Reply, X } from "lucide-react";
+import { Loader2, MessageCircle, Send, Reply } from "lucide-react";
 import { GifTrigger } from "../ui/gif-picker";
 import { CommentContent } from "../ui/comment-content";
-import EmojiReaction from "../ui/emoji-reaction";
 type CommentCreateFormProps = {
   postId: string;
   parentId?: string;
@@ -44,13 +43,13 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
   };
 
   // Reset form after successful submission
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     setContent("");
     setSelectedGifs([]);
     if (!startOpen) {
       setOpen(false);
     }
-  };
+  }, [startOpen]);
 
   // Monitor form state for successful submission
   useEffect(() => {
@@ -72,7 +71,7 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
     
     // Update the previous pending state
     previousPendingRef.current = isPending;
-  }, [formState, isPending, startOpen]);
+  }, [formState, isPending, resetForm]);
   return (
     <div className="space-y-4">
       {!startOpen && (

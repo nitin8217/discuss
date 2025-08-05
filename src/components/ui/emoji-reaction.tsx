@@ -73,7 +73,7 @@ export function EmojiReactionButton({
         
         <div className="flex -space-x-1">
           {Object.entries(reactions)
-            .filter(([_, reactionData]) => reactionData.count > 0)
+            .filter(([, reactionData]) => reactionData.count > 0)
             .slice(0, 3)
             .map(([name, reactionData]) => {
               const reaction = reactionConfig.find(r => r.name === name)
