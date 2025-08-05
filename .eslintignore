@@ -6,6 +6,12 @@ build/
 .next/
 node_modules/
 
+# Test files and directories
+src/app/test-gif/**
+**/__tests__/**
+**/*.test.*
+**/*.spec.*
+
 # OS generated files
 .DS_Store
 .DS_Store?
