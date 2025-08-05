@@ -22,5 +22,6 @@ export const {handlers:{GET, POST},auth, signIn , signOut} = NextAuth({
             }
             return session;
         }
-    }
+    },
+    debug: process.env.NODE_ENV === 'development'
 })
