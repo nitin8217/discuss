@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { MessageSquare } from 'lucide-react';
 import AuthHeader from './auth-header';
 import SearchInput from './search-input';
@@ -22,7 +22,13 @@ const HeaderPage = () => {
           </LoadingLink>
         </div>
         <div className='flex justify-center order-3 md:order-2'>
-          <SearchInput />
+          <Suspense fallback={
+            <div className="w-full max-w-md">
+              <div className="h-12 bg-slate-200/50 rounded-2xl animate-pulse"></div>
+            </div>
+          }>
+            <SearchInput />
+          </Suspense>
         </div>
         <div className='flex justify-end gap-2 order-2 md:order-3'>
           <AuthHeader/>

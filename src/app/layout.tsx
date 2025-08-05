@@ -7,6 +7,7 @@ import { SearchLoadingProvider } from "@/components/providers/search-loading-pro
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import ParticleAnimation from "@/components/ui/particle-animation";
 import PageTransition from "@/components/ui/page-transition";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Discuss - Modern Forum",
@@ -27,16 +28,18 @@ export default function RootLayout({
             <ParticleAnimation />
             <div className="relative z-10 container mx-auto max-w-6xl px-4">
               <SessionProvider>
-                <SearchLoadingProvider>
-                  <LoadingProvider>
-                    <HeaderPage />
-                    <main className="py-6">
-                      <PageTransition>
-                        {children}
-                      </PageTransition>
-                    </main>
-                  </LoadingProvider>
-                </SearchLoadingProvider>
+                <Suspense fallback={<div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-background/90" />}>
+                  <SearchLoadingProvider>
+                    <LoadingProvider>
+                      <HeaderPage />
+                      <main className="py-6">
+                        <PageTransition>
+                          {children}
+                        </PageTransition>
+                      </main>
+                    </LoadingProvider>
+                  </SearchLoadingProvider>
+                </Suspense>
               </SessionProvider>
             </div>
           </div>
