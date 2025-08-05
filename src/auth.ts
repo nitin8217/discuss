@@ -3,9 +3,9 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import GitHubProvider from "next-auth/providers/github";
 import {prisma} from "@/lib";
 
-// Use placeholder values during build, real values at runtime
-const githubClientId = process.env.GITHUB_CLIENT_ID || 'build-placeholder';
-const githubClientSecret = process.env.GITHUB_CLIENT_SECRET || 'build-placeholder';
+// Use environment variables with fallbacks for build time
+const githubClientId = process.env.GITHUB_CLIENT_ID || 'build-time-placeholder';
+const githubClientSecret = process.env.GITHUB_CLIENT_SECRET || 'build-time-placeholder';
 
 export const {handlers:{GET, POST},auth, signIn , signOut} = NextAuth({
     adapter: PrismaAdapter(prisma),
