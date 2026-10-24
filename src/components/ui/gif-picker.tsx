@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, X, Loader2, Image } from 'lucide-react'
+import { Search, X, Loader2, Image as ImageIcon } from 'lucide-react'
 import { Input } from './input'
 
 interface GifData {
@@ -26,6 +26,13 @@ interface GifPickerProps {
   onClose: () => void
 }
 
+const getGiphyApiKey = (apiKey: string | undefined) => {
+  if (!apiKey || apiKey.startsWith('your-')) {
+    throw new Error('GIPHY is not configured. Add NEXT_PUBLIC_GIPHY_API_KEY to enable GIF search.')
+  }
+  return apiKey
+}
+
 const GifPicker: React.FC<GifPickerProps> = ({ onGifSelect, isOpen, onClose }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [gifs, setGifs] = useState<GifData[]>([])
@@ -33,16 +40,7 @@ const GifPicker: React.FC<GifPickerProps> = ({ onGifSelect, isOpen, onClose }) =
   const [error, setError] = useState('')
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  // Use the official GIPHY public beta key for development
-  const GIPHY_API_KEY = process.env.NEXT_PUBLIC_GIPHY_API_KEY || 'dc6zaTOxFJmzC'
-
-  // Debug log to check if API key is loaded
-  console.log('GIPHY API Key loaded:', GIPHY_API_KEY ? `${GIPHY_API_KEY.substring(0, 8)}...` : 'None')
-  console.log('Full environment check:', {
-    hasKey: !!GIPHY_API_KEY,
-    keyLength: GIPHY_API_KEY?.length,
-    isPlaceholder: GIPHY_API_KEY === 'your-giphy-api-key-here' || GIPHY_API_KEY === 'your-actual-giphy-api-key-here'
-  })
+  const GIPHY_API_KEY = process.env.NEXT_PUBLIC_GIPHY_API_KEY
 
   const searchGifs = useCallback(async (query: string) => {
     if (!query.trim()) {
@@ -54,8 +52,9 @@ const GifPicker: React.FC<GifPickerProps> = ({ onGifSelect, isOpen, onClose }) =
     setError('')
 
     try {
+      const apiKey = getGiphyApiKey(GIPHY_API_KEY)
       const response = await fetch(
-        `https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${encodeURIComponent(query)}&limit=20&rating=pg-13`
+        `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${encodeURIComponent(query)}&limit=20&rating=pg-13`
       )
       
       if (!response.ok) {
@@ -79,8 +78,9 @@ const GifPicker: React.FC<GifPickerProps> = ({ onGifSelect, isOpen, onClose }) =
     setError('')
     
     try {
+      const apiKey = getGiphyApiKey(GIPHY_API_KEY)
       const response = await fetch(
-        `https://api.giphy.com/v1/gifs/trending?api_key=${GIPHY_API_KEY}&limit=20&rating=pg-13`
+        `https://api.giphy.com/v1/gifs/trending?api_key=${apiKey}&limit=20&rating=pg-13`
       )
       
       if (!response.ok) {
@@ -184,7 +184,7 @@ const GifPicker: React.FC<GifPickerProps> = ({ onGifSelect, isOpen, onClose }) =
             {error && (
               <div className="flex items-center justify-center py-12">
                 <div className="text-center max-w-md">
-                  <Image className="w-12 h-12 text-slate-500 mx-auto mb-4" />
+                  <ImageIcon className="w-12 h-12 text-slate-500 mx-auto mb-4" />
                   <p className="text-red-400 mb-3 text-sm font-medium">{error}</p>
                   <p className="text-slate-400 text-xs mb-4">
                     Please try again or check your internet connection.
@@ -202,7 +202,7 @@ const GifPicker: React.FC<GifPickerProps> = ({ onGifSelect, isOpen, onClose }) =
             {!loading && !error && gifs.length === 0 && searchTerm && (
               <div className="flex items-center justify-center py-12">
                 <div className="text-center">
-                  <Image className="w-12 h-12 text-slate-500 mx-auto mb-2" />
+                  <ImageIcon className="w-12 h-12 text-slate-500 mx-auto mb-2" />
                   <p className="text-slate-400">No GIFs found for &ldquo;{searchTerm}&rdquo;</p>
                   <p className="text-slate-500 text-sm mt-1">Try a different search term</p>
                 </div>
@@ -255,7 +255,7 @@ export const GifTrigger: React.FC<{ onGifSelect: (gifUrl: string) => void }> = (
         whileTap={{ scale: 0.95 }}
         type="button"
       >
-        <Image className="w-4 h-4 text-slate-400 group-hover:text-purple-400" />
+        <ImageIcon className="w-4 h-4 text-slate-400 group-hover:text-purple-400" />
       </motion.button>
       
       <GifPicker

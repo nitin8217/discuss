@@ -8,7 +8,7 @@
 
 ## 🎯 Choose Your Platform:
 
-### Option 1: Railway (Recommended) - Supports SQLite
+### Option 1: Railway - SQLite with persistent storage
 1. **Go to**: [railway.app](https://railway.app)
 2. **Sign up** with your GitHub account
 3. **Create new project** → Deploy from GitHub repo
@@ -18,12 +18,16 @@
    - `NEXTAUTH_URL=https://your-app.railway.app`
    - `GITHUB_CLIENT_ID=your-id`
    - `GITHUB_CLIENT_SECRET=your-secret`
-   - `DATABASE_URL=file:./prisma/dev.db`
+   - `DATABASE_URL=file:./dev.db`
 
-### Option 2: Vercel (Popular) - Requires PostgreSQL
+> If using SQLite on Railway, attach a persistent volume and mount it so the
+> database survives redeployments. For a multi-instance or higher-traffic
+> deployment, use PostgreSQL instead.
+
+### Option 2: Vercel - Requires PostgreSQL
 1. **Install Vercel CLI**: `npm i -g vercel`
 2. **Deploy**: `vercel`
-3. **Add PostgreSQL** from Neon/Supabase
+3. **Create a PostgreSQL database in Neon**
 4. **Update DATABASE_URL** to PostgreSQL connection string
 
 ## 📋 After Deployment:
@@ -51,6 +55,8 @@
 - Never commit your `.env` file
 - Use environment variables in your deployment platform
 - Make sure GitHub OAuth URLs match your deployed domain
+- Do not deploy SQLite without persistent storage
+- Confirm `prisma migrate deploy` succeeds before starting the app
 
 ## 🎉 You're Ready to Deploy!
 

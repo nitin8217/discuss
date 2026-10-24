@@ -81,7 +81,7 @@ A cutting-edge discussion platform built with Next.js 15, featuring an ultra-mod
    NEXTAUTH_SECRET=your-secret-key-here
    GITHUB_CLIENT_ID=your-github-client-id
    GITHUB_CLIENT_SECRET=your-github-client-secret
-   DATABASE_URL="file:./dev.db"
+   DATABASE_URL="postgresql://NEON_USER:NEON_PASSWORD@EP-XXXX-POOLER.REGION.aws.neon.tech/NEON_DATABASE?sslmode=require"
    NEXT_PUBLIC_GIPHY_API_KEY=your-giphy-api-key-here
    ```
 
@@ -123,6 +123,10 @@ A cutting-edge discussion platform built with Next.js 15, featuring an ultra-mod
 - `npm run build` - Build for production
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
+
+For production, `npm run start` applies committed Prisma migrations with
+`prisma migrate deploy` before starting Next.js. The application and Prisma
+migrations both use the pooled Neon URL through `DATABASE_URL`.
 
 ### Project Structure
 ```

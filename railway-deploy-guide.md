@@ -26,7 +26,7 @@ Make sure you have these scripts:
 {
   "scripts": {
     "build": "prisma generate && next build",
-    "start": "next start",
+    "start": "prisma migrate deploy && next start",
     "postinstall": "prisma generate"
   }
 }
@@ -60,14 +60,17 @@ In Railway dashboard:
    - `NEXTAUTH_URL` (will be provided by Railway)
    - `GITHUB_CLIENT_ID`
    - `GITHUB_CLIENT_SECRET`
-   - `DATABASE_URL=file:./prisma/dev.db`
+   - `DATABASE_URL=file:./dev.db`
 
 ### 2.3 Database Setup
 Railway will automatically:
 - Install dependencies
 - Run `prisma generate`
 - Build your Next.js app
-- Run database migrations
+- Run committed database migrations when the app starts
+
+If you keep SQLite, attach a persistent Railway volume. Otherwise, data can
+be lost when the service is redeployed or restarted.
 
 ## Step 3: Update GitHub OAuth
 
@@ -119,7 +122,8 @@ vercel
 ### 3. Add Neon PostgreSQL
 1. Sign up at [neon.tech](https://neon.tech)
 2. Create a database
-3. Add connection string to Vercel environment variables
+3. Add Neon’s pooled connection as `DATABASE_URL` to Vercel environment
+   variables
 
 ## Environment Variables Checklist
 - [ ] `NEXTAUTH_SECRET`

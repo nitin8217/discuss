@@ -8,7 +8,7 @@ NEXTAUTH_SECRET=your-super-secret-key-here-generate-a-new-one-for-production
 NEXTAUTH_URL=https://your-app-name.railway.app
 GITHUB_CLIENT_ID=your-github-client-id
 GITHUB_CLIENT_SECRET=your-github-client-secret
-DATABASE_URL=file:./prisma/dev.db
+DATABASE_URL=file:./dev.db
 
 ## 🎨 Optional Environment Variables:
 
@@ -35,7 +35,8 @@ Update this after your first deployment
   - Authorization callback URL: https://your-railway-domain.railway.app/api/auth/callback/github
 
 ### DATABASE_URL
-Keep as: file:./prisma/dev.db (Railway supports file-based SQLite)
+Keep as: `file:./dev.db`. Prisma resolves this relative to the `prisma`
+directory. Attach a Railway persistent volume or use PostgreSQL in production.
 
 ### NEXT_PUBLIC_GIPHY_API_KEY (Optional)
 **What it does**: Enables GIF search and insertion in comments

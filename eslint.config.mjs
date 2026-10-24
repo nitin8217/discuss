@@ -10,7 +10,6 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     ignores: [
       "src/generated/**",
@@ -20,7 +19,11 @@ const eslintConfig = [
       "build/",
       ".next/",
       "node_modules/",
+      "scripts/**",
     ],
+  },
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
     rules: {
       "@next/next/no-img-element": "warn",
       "jsx-a11y/alt-text": "warn",
