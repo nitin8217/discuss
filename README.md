@@ -124,9 +124,9 @@ A cutting-edge discussion platform built with Next.js 15, featuring an ultra-mod
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
 
-For production, `npm run start` applies committed Prisma migrations with
-`prisma migrate deploy` before starting Next.js. The application and Prisma
-migrations both use the pooled Neon URL through `DATABASE_URL`.
+For production, run `npx prisma migrate deploy` once against the Neon database
+before deploying. Vercel then runs `prisma generate && next build`; migrations
+are not run during a Vercel build.
 
 ### Project Structure
 ```
